@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-50 text-slate-800">
+
+  <main class="min-h-screen p-6 md:p-10">
+
+    <!-- HEADER -->
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+        Dashboard
+      </h1>
+
+      <p class="text-sm text-slate-500">
+        Bienvenido de nuevo, admin.
+      </p>
+    </header>
+
+
+    <!-- =========================
+         TARJETAS DE ESTADÍSTICAS
+    ========================== -->
+
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-6">
+
+      <!-- Usuarios -->
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+        <div class="flex items-start justify-between">
+
+          <div>
+            <p class="text-xs text-slate-500">
+              Usuarios Totales
+            </p>
+
+            <h2 class="mt-1 text-2xl font-bold text-slate-800">
+              8,249
+            </h2>
+
+            <p class="mt-1 text-xs text-slate-500">
+              Aumentó 1,093 esta semana
+            </p>
+          </div>
+
+          <span class="rounded-full bg-green-100 px-2 py-1 text-[10px] font-semibold text-green-600">
+            +12%
+          </span>
+
+        </div>
+      </div>
+
+
+      <!-- Ingresos -->
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+        <div class="flex items-start justify-between">
+
+          <div>
+            <p class="text-xs text-slate-500">
+              Ingresos
+            </p>
+
+            <h2 class="mt-1 text-2xl font-bold text-slate-800">
+              $24,780
+            </h2>
+
+            <p class="mt-1 text-xs text-slate-500">
+              $2,567 más que el mes pasado
+            </p>
+          </div>
+
+          <span class="rounded-full bg-green-100 px-2 py-1 text-[10px] font-semibold text-green-600">
+            +8%
+          </span>
+
+        </div>
+      </div>
+
+
+      <!-- Sesiones -->
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+        <div class="flex items-start justify-between">
+
+          <div>
+            <p class="text-xs text-slate-500">
+              Sesiones Activas
+            </p>
+
+            <h2 class="mt-1 text-2xl font-bold text-slate-800">
+              1,342
+            </h2>
+
+            <p class="mt-1 text-xs text-slate-500">
+              42 menos que ayer
+            </p>
+          </div>
+
+          <span class="rounded-full bg-red-100 px-2 py-1 text-[10px] font-semibold text-red-500">
+            -3%
+          </span>
+
+        </div>
+      </div>
+
+
+      <!-- Conversión -->
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+        <div class="flex items-start justify-between">
+
+          <div>
+            <p class="text-xs text-slate-500">
+              Tasa de Conversión
+            </p>
+
+            <h2 class="mt-1 text-2xl font-bold text-slate-800">
+              24.8%
+            </h2>
+
+            <p class="mt-1 text-xs text-slate-500">
+              1.2% más que el promedio
+            </p>
+          </div>
+
+          <span class="rounded-full bg-green-100 px-2 py-1 text-[10px] font-semibold text-green-600">
+            +5%
+          </span>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         GRÁFICAS
+    ========================== -->
+
+    <section class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+
+
+      <!-- CRECIMIENTO DE USUARIOS -->
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+        <h2 class="mb-4 text-base font-semibold text-slate-800">
+          Crecimiento de Usuarios
+        </h2>
+
+        <div class="h-[250px]">
+          <canvas id="usersChart"></canvas>
+        </div>
+
+      </div>
+
+
+      <!-- INGRESOS MENSUALES -->
+      <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+        <h2 class="mb-4 text-base font-semibold text-slate-800">
+          Ingresos Mensuales
+        </h2>
+
+        <div class="h-[250px]">
+          <canvas id="incomeChart"></canvas>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    const meses = [
+      "Ene", "Feb", "Mar", "Abr",
+      "May", "Jun", "Jul", "Ago",
+      "Sep", "Oct", "Nov", "Dic"
+    ];
+
+
+    // ==========================================
+    // GRÁFICA DE CRECIMIENTO DE USUARIOS
+    // ==========================================
+
+    const usersCtx = document
+      .getElementById("usersChart")
+      .getContext("2d");
+
+    new Chart(usersCtx, {
+
+      type: "line",
+
+      data: {
+
+        labels: meses,
+
+        datasets: [
+
+          {
+            label: "Usuarios 2024",
+
+            data: [
+              4800,
+              5200,
+              5600,
+              5900,
+              6400,
+              6800,
+              7200,
+              7600,
+              8000,
+              8300,
+              8700,
+              9100
+            ],
+
+            borderColor: "#3b82f6",
+
+            backgroundColor: "rgba(59, 130, 246, 0.10)",
+
+            borderWidth: 2,
+
+            pointRadius: 2,
+
+            pointBackgroundColor: "#3b82f6",
+
+            fill: true,
+
+            tension: 0.3
+          },
+
+
+          {
+            label: "Usuarios 2023",
+
+            data: [
+              4000,
+              4200,
+              4400,
+              4700,
+              5100,
+              5400,
+              5700,
+              6000,
+              6300,
+              6600,
+              6900,
+              7100
+            ],
+
+            borderColor: "#64748b",
+
+            backgroundColor: "rgba(100, 116, 139, 0.08)",
+
+            borderWidth: 2,
+
+            pointRadius: 2,
+
+            pointBackgroundColor: "#64748b",
+
+            fill: true,
+
+            tension: 0.3
+          }
+
+        ]
+
+      },
+
+      options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+          legend: {
+            position: "top",
+
+            labels: {
+              boxWidth: 25,
+              font: {
+                size: 10
+              }
+            }
+          }
+
+        },
+
+        scales: {
+
+          y: {
+            beginAtZero: true,
+
+            max: 10000,
+
+            ticks: {
+              font: {
+                size: 9
+              }
+            },
+
+            grid: {
+              color: "#e5e7eb"
+            }
+          },
+
+          x: {
+            ticks: {
+              font: {
+                size: 9
+              }
+            },
+
+            grid: {
+              color: "#f1f5f9"
+            }
+          }
+
+        }
+      }
+
+    });
+
+
+    // ==========================================
+    // GRÁFICA DE INGRESOS
+    // ==========================================
+
+    const incomeCtx = document
+      .getElementById("incomeChart")
+      .getContext("2d");
+
+
+    new Chart(incomeCtx, {
+
+      type: "bar",
+
+      data: {
+
+        labels: meses,
+
+        datasets: [
+
+          {
+            label: "Ingresos 2024 ($)",
+
+            data: [
+              15000,
+              16500,
+              18000,
+              19500,
+              21000,
+              22500,
+              23000,
+              24000,
+              25000,
+              26500,
+              28000,
+              29500
+            ],
+
+            backgroundColor: "#3b82f6",
+
+            borderRadius: 0,
+
+            barPercentage: 0.65,
+
+            categoryPercentage: 0.8
+
+          }
+
+        ]
+
+      },
+
+      options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+          legend: {
+
+            position: "top",
+
+            labels: {
+              boxWidth: 25,
+
+              font: {
+                size: 10
+              }
+            }
+
+          }
+
+        },
+
+        scales: {
+
+          y: {
+
+            beginAtZero: true,
+
+            max: 30000,
+
+            ticks: {
+
+              font: {
+                size: 9
+              },
+
+              callback: function(value) {
+                return value.toLocaleString();
+              }
+
+            },
+
+            grid: {
+              color: "#e5e7eb"
+            }
+
+          },
+
+          x: {
+
+            ticks: {
+              font: {
+                size: 9
+              }
+            },
+
+            grid: {
+              color: "#f1f5f9"
+            }
+
+          }
+
+        }
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
